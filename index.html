@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>For Janvi 🌸</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400;1,9..144,700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--rose:#e8467c;--blush:#ffe3ec;--lav:#b79ced;--peach:#ffb48f;--sun:#ffd25e;--plum:#3a1450;--leaf:#5fbf8f}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:'Fraunces',Georgia,serif;color:var(--plum);background:linear-gradient(170deg,#ffe3ec 0%,#f3e4ff 45%,#ffe9d6 100%);background-attachment:fixed;line-height:1.7;overflow-x:hidden}
+body.locked{overflow:hidden}
+.hand{font-family:'Caveat','Segoe Script',cursive;font-weight:700}
+canvas#petals{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+section{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:96px 24px}
+h2{font-size:clamp(1.9rem,6vw,2.8rem);font-style:italic;font-weight:700;line-height:1.15;margin-bottom:20px}
+
+/* gate */
+.gate{position:fixed;inset:0;z-index:50;display:grid;place-items:center;text-align:center;background:radial-gradient(circle at 50% 40%,#ffd1e1,#d9c4ff 70%);cursor:pointer;transition:opacity 1s .9s,visibility 0s 1.9s}
+.gate.open{opacity:0;visibility:hidden}
+.gate .bud{width:min(62vw,280px);margin:0 auto 18px;transform:scale(.38) rotate(-20deg);transition:transform 1.5s cubic-bezier(.2,1.3,.4,1);filter:drop-shadow(0 12px 24px #e8467c55)}
+.gate.open .bud{transform:scale(1.5) rotate(25deg)}
+.gate p{transition:opacity .4s}
+.gate.open p{opacity:0}
+.gate .tap{font-size:2rem;color:var(--rose);animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.08);opacity:.7}}
+
+/* hero */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;text-align:center;max-width:none}
+.hero h1{font-size:clamp(2.6rem,11vw,6.2rem);font-style:italic;font-weight:700;line-height:1.02;color:var(--rose);text-shadow:0 4px 0 #fff8,0 12px 30px #e8467c33}
+.hero h1 span{display:block;color:var(--plum);font-weight:400;font-size:.42em;margin-bottom:.2em}
+.hero .sub{font-size:clamp(1.6rem,5vw,2.3rem);color:var(--lav);margin-top:18px}
+.hero .fl{position:absolute;width:clamp(60px,12vw,120px);opacity:.9;animation:sway 6s ease-in-out infinite}
+@keyframes sway{50%{transform:translateY(-14px) rotate(14deg)}}
+.hero .scroll{margin-top:40px;font-size:1.5rem;color:var(--rose)}
+
+/* letter */
+.paper{background:#fffdf8;border-radius:6px 28px 6px 28px;padding:40px 32px;box-shadow:0 20px 50px #b79ced44,0 0 0 8px #fff8;position:relative;rotate:-.6deg}
+.paper::before{content:"";position:absolute;inset:10px;border:2px dashed #ffc0d4;border-radius:4px 22px 4px 22px;pointer-events:none}
+.paper p{margin-bottom:1.1em;font-size:1.1rem;max-width:62ch}
+.paper .sign{font-size:2rem;color:var(--rose);margin:0}
+
+/* distance */
+.dist svg{width:100%;height:auto;overflow:visible}
+.dist .cap{text-align:center;font-size:1.15rem}
+
+/* reasons */
+.petals{display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:12px;margin:24px 0}
+.petals button{background:none;border:0;cursor:pointer;padding:6px;border-radius:50%;transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.petals button:hover{transform:scale(1.12) rotate(10deg)}
+.petals button[aria-pressed=true]{transform:scale(1.2) rotate(-12deg);filter:drop-shadow(0 6px 10px #e8467c66)}
+.petals svg{width:100%;display:block}
+.reason{min-height:150px;background:#fff;border-radius:24px;padding:26px 28px;box-shadow:0 12px 34px #e8467c26;font-size:1.25rem;font-style:italic;display:flex;align-items:center;justify-content:center;text-align:center}
+.reason.pop{animation:pop .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{from{transform:scale(.85);opacity:0}}
+
+/* garden */
+.garden{position:relative;height:300px;border-radius:30px;overflow:hidden;cursor:crosshair;touch-action:manipulation;background:linear-gradient(#fdf0ff 0%,#fff3dc 62%,#bfe8c8 62%,#7fcf9f 100%);box-shadow:inset 0 0 0 4px #fff,0 16px 40px #5fbf8f33}
+.garden .hint{position:absolute;inset:14px auto auto 0;width:100%;text-align:center;font-size:1.7rem;color:var(--rose);pointer-events:none;transition:opacity .5s}
+.plant{position:absolute;width:64px;transform:translate(-50%,-100%) scale(0);transform-origin:50% 100%;animation:grow 1.1s cubic-bezier(.2,1.5,.4,1) forwards;pointer-events:none}
+.plant i{display:block;width:5px;height:60px;margin:-6px auto 0;background:var(--leaf);border-radius:4px}
+@keyframes grow{to{transform:translate(-50%,-100%) scale(1)}}
+.count{text-align:center;margin-top:14px;font-size:1.6rem;color:var(--plum)}
+
+/* together */
+.days{text-align:center}
+.days b{display:block;font-size:clamp(4rem,20vw,8rem);font-style:italic;color:var(--rose);line-height:1}
+
+/* end */
+footer{position:relative;z-index:2;text-align:center;padding:40px 24px 100px}
+footer .crown{width:110px;margin:0 auto 10px;animation:sway 5s ease-in-out infinite}
+footer p{font-size:1.6rem;color:var(--rose)}
+
+.rv{opacity:0;transform:translateY(24px);transition:opacity .9s,transform .9s}
+.rv.in{opacity:1;transform:none}
+button:focus-visible,.gate:focus-visible{outline:3px solid var(--rose);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01s!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body class="locked">
+
+<canvas id="petals" aria-hidden="true"></canvas>
+
+<div class="gate" id="gate" role="button" tabindex="0" aria-label="Tap to open">
+  <div>
+    <div class="bud" id="bud"></div>
+    <p class="hand tap">tap to open, Janvi</p>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="fl" style="left:6%;top:12%" data-f="0"></div>
+  <div class="fl" style="right:6%;top:18%;animation-delay:-2s" data-f="1"></div>
+  <div class="fl" style="left:12%;bottom:12%;animation-delay:-4s" data-f="2"></div>
+  <div class="fl" style="right:10%;bottom:16%;animation-delay:-1s" data-f="3"></div>
+  <h1><span>Happy Princess Day,</span><em id="herName">Janvi</em></h1>
+  <p class="scroll hand">scroll down, there's more ↓</p>
+</section>
+
+<section class="rv">
+  <h2>A little letter</h2>
+  <div class="paper" id="letter"></div>
+</section>
+
+<section class="dist rv">
+  <svg viewBox="0 0 600 200" role="img" aria-label="A heart travelling from me to you">
+    <path id="route" d="M60 140 C 200 -10, 400 -10, 540 140" fill="none" stroke="#e8467c" stroke-width="3" stroke-dasharray="3 12" stroke-linecap="round"/>
+    <circle cx="60" cy="140" r="16" fill="#b79ced"/><circle cx="540" cy="140" r="16" fill="#ffb48f"/>
+    <text x="60" y="180" text-anchor="middle" class="hand" font-size="32" fill="#3a1450">Yug</text>
+    <text x="540" y="180" text-anchor="middle" class="hand" font-size="32" fill="#3a1450">Janvi</text>
+    <text font-size="34" text-anchor="middle" dy="10">💗<animateMotion dur="5s" repeatCount="indefinite" rotate="0"><mpath href="#route"/></animateMotion></text>
+  </svg>
+  <p class="cap">No matter what, my heart always finds its way to you.</p>
+</section>
+
+<section class="rv">
+  <h2>Why you're my princess</h2>
+  <p>Tap a flower. Each one has something I love about you.</p>
+  <div class="petals" id="petalBtns"></div>
+  <div class="reason" id="reason" aria-live="polite">🌷 pick a flower 🌷</div>
+</section>
+
+<section class="rv">
+  <h2>Our little garden</h2>
+  <div class="garden" id="garden" aria-label="Tap to plant flowers">
+    <div class="hint hand" id="hint">tap anywhere to plant a flower</div>
+  </div>
+  <p class="count hand" id="count">every flower is a hug I can't deliver yet</p>
+</section>
+
+<section class="days rv">
+  <h2>Since August 29</h2>
+  <b id="days">0</b>
+  <p class="hand" style="font-size:1.8rem">days since we first talked, and I'd choose every one again</p>
+</section>
+
+<footer class="rv">
+  <div class="crown">
+    <svg viewBox="0 0 100 80"><path d="M10 66 L6 22 L30 42 L50 12 L70 42 L94 22 L90 66Z" fill="#ffd25e" stroke="#e8a317" stroke-width="3" stroke-linejoin="round"/><circle cx="6" cy="20" r="6" fill="#e8467c"/><circle cx="50" cy="10" r="7" fill="#b79ced"/><circle cx="94" cy="20" r="6" fill="#e8467c"/><rect x="10" y="62" width="80" height="10" rx="4" fill="#e8a317"/></svg>
+  </div>
+  <p class="hand">Open this whenever you miss me. It'll always be here, and so will I.</p>
+</footer>
+
+<script>
+/* ======= EDIT THIS PART ======= */
+const SINCE = "2026-08-29"; // the day you two started talking (YYYY-MM-DD), check the year!
+const LETTER = [
+  "Janvi,",
+  "Today is Princess Day, and you deserve a bouquet of lilies and so much more. So I built you a garden.",
+  "On August 29 we started talking, and I had no idea those first few messages would turn into the thing I look forward to most, every single day. Somewhere between then and now, you stopped being someone I talk to and became the first person I think of when I wake up and the last one before I fall asleep.",
+  "Some days all I want is to hug you after a long day, or just sit next to you and say nothing at all. You're in everything I do, and you're on my mind more than you know.",
+  "You deserve to be treated like a princess today and every day. You deserve flowers, and quiet moments, and someone who listens, someone who chooses you again and again. I'm trying to be that someone, and I'll keep trying for as long as you'll let me.",
+  "This garden won't wilt. Come back whenever you miss me, whenever you have a bad day, whenever you forget how loved you are. Plant a flower. I'll be on the other end of every one.",
+  "Happy Princess Day, my love. I'm counting down until I get to see you."
+];
+const SIGNED = "Always yours,<br>Yug 💕";
+const REASONS = [
+  "Your laugh makes my whole day better.",
+  "You are kind to everyone, even when it's hard.",
+  "The way you light up when you talk about things you love.",
+  "You make me want to be better.",
+  "You make everything feel lighter.",
+  "Your smile. Just your smile.",
+  "You're my favorite person to talk to about everything.",
+  "You are brave in ways you don't see.",
+  "Being yours is my favorite thing."
+];
+/* ============================== */
+
+const COLORS=[["#ff6f9f","#ffd25e"],["#b79ced","#fff3a8"],["#ffb48f","#e8467c"],["#ff9ccc","#ffe08a"],["#8fd3ff","#fff3a8"],["#ffffff","#ffb48f"]];
+function flower(c,n=8){let p="";for(let i=0;i<n;i++)p+=`<ellipse cx="50" cy="26" rx="11" ry="24" fill="${c[0]}" opacity=".92" transform="rotate(${i*360/n} 50 50)"/>`;return `<svg viewBox="0 0 100 100" aria-hidden="true">${p}<circle cx="50" cy="50" r="12" fill="${c[1]}"/></svg>`}
+const LILY=[["#ff7fae","#c2185b"],["#ffffff","#ffa6c6"],["#ffb48f","#e8467c"],["#d9b8ff","#8e5bd6"]];
+function lily(c){let p="";
+  for(let i=0;i<6;i++){const a=i*60,back=i%2===0;
+    p+=`<g transform="rotate(${a} 50 50)" opacity="${back?.78:1}"><path d="M50 52C33 38 37 13 50 2C63 13 67 38 50 52Z" fill="${c[0]}" stroke="${c[1]}" stroke-opacity=".35" stroke-width="1.5"/><path d="M50 48V14" stroke="${c[1]}" stroke-opacity=".45" stroke-width="2" stroke-linecap="round"/></g>`}
+  for(let i=0;i<5;i++){const a=i*72+10;p+=`<g transform="rotate(${a} 50 50)"><path d="M50 50V26" stroke="#7bb86f" stroke-width="2"/><ellipse cx="50" cy="24" rx="3" ry="6" fill="#c2410c"/></g>`}
+  return `<svg viewBox="0 0 100 100" aria-hidden="true">${p}<circle cx="50" cy="50" r="5" fill="#ffd25e"/></svg>`}
+const $=id=>document.getElementById(id);
+
+// gate: one bloom moment
+$("bud").innerHTML=lily(LILY[0]);
+function openGate(){$("gate").classList.add("open");document.body.classList.remove("locked")}
+$("gate").addEventListener("click",openGate);
+$("gate").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" ")openGate()});
+
+// hero flowers
+document.querySelectorAll("[data-f]").forEach(el=>el.innerHTML=(+el.dataset.f%2===0?lily(LILY[+el.dataset.f%4]):flower(COLORS[+el.dataset.f],10)));
+
+// letter
+$("letter").innerHTML=LETTER.map(t=>`<p>${t}</p>`).join("")+`<p class="sign hand">${SIGNED}</p>`;
+
+// reasons
+const box=$("petalBtns"),rs=$("reason");
+REASONS.forEach((r,i)=>{
+  const b=document.createElement("button");
+  b.innerHTML=i%2===0?lily(LILY[i%4]):flower(COLORS[i%COLORS.length],6+(i%3)*2);b.setAttribute("aria-label","Reason "+(i+1));b.setAttribute("aria-pressed","false");
+  b.onclick=()=>{box.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");
+    rs.textContent=r;rs.classList.remove("pop");void rs.offsetWidth;rs.classList.add("pop")};
+  box.appendChild(b);
+});
+
+// garden
+let planted=0;const g=$("garden");
+g.addEventListener("click",e=>{
+  const r=g.getBoundingClientRect(),x=e.clientX-r.left,y=Math.max(e.clientY-r.top,110);
+  const d=document.createElement("div");d.className="plant";d.style.left=x+"px";d.style.top=y+"px";
+  d.style.width=(48+Math.random()*34)+"px";
+  d.innerHTML=(Math.random()<.5?lily(LILY[Math.floor(Math.random()*4)]):flower(COLORS[Math.floor(Math.random()*COLORS.length)],8))+"<i></i>";
+  g.appendChild(d);planted++;$("hint").style.opacity=0;
+  $("count").textContent=planted+(planted===1?" flower planted 🌱":" flowers planted, and each one is a hug 🤗");
+});
+
+// days together
+const ms=Date.now()-new Date(SINCE+"T00:00:00").getTime();
+$("days").textContent=Math.max(0,Math.floor(ms/864e5)).toLocaleString();
+
+// reveal on scroll
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll(".rv").forEach(el=>io.observe(el));
+
+// falling petals
+(function(){
+  if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+  const c=$("petals"),x=c.getContext("2d");let W,H;
+  const cols=["#ff9ccc","#ffc0d4","#d9c4ff","#ffd9bf","#ffffff"];
+  function size(){W=c.width=innerWidth;H=c.height=innerHeight}size();addEventListener("resize",size);
+  const ps=Array.from({length:28},()=>({x:Math.random()*W,y:Math.random()*H,s:6+Math.random()*9,v:.4+Math.random()*.9,w:Math.random()*6,a:Math.random()*6,c:cols[Math.floor(Math.random()*cols.length)]}));
+  (function f(){x.clearRect(0,0,W,H);
+    ps.forEach(p=>{p.y+=p.v;p.w+=.02;p.a+=.015;p.x+=Math.sin(p.w)*.8;if(p.y>H+20){p.y=-20;p.x=Math.random()*W}
+      x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.globalAlpha=.7;x.beginPath();x.ellipse(0,0,p.s,p.s/2,0,0,7);x.fill();x.restore()});
+    requestAnimationFrame(f)})();
+})();
+</script>
+</body>
+</html>
